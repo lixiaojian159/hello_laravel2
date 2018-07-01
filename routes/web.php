@@ -15,6 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//首页
 Route::get('/','StaticPagesController@home')->name('home');
+//关于页
 Route::get('/about','StaticPagesController@about')->name('about');
+//帮助页
 Route::get('/help','StaticPagesController@help')->name('help');
+
+//注册页
+Route::get('signup','UsersController@create')->name('signup');;
