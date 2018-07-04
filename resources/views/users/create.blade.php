@@ -6,7 +6,7 @@
 	    <div class="panel-heading">
 	        <h5>注册</h5>
 	    </div>
-		@include('layouts._errors')
+		@include('shared._errors')
 	    <div class="panel-body">
 		    <form method="POST" action="{{ route('users.store') }}">
 		    	{{ csrf_field() }}

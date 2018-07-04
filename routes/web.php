@@ -26,3 +26,9 @@ Route::get('/help','StaticPagesController@help')->name('help');
 Route::get('signup','UsersController@create')->name('signup');
 //用户模块
 Route::resource('users','UsersController');
+//用户登录
+Route::get('login','SessionsController@create')->name('login');
+//用户验证
+Route::post('login','SessionsController@store')->name('login');
+//用户退出
+Route::delete('logout','SessionsController@destroy')->name('logout');
