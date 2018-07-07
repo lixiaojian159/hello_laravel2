@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;use App\Http\Requests;
 use Auth;
+use Mail;
 
 class SessionsController extends Controller
 {
@@ -19,10 +20,15 @@ class SessionsController extends Controller
 	//用户登录验证
 	public function store(Request $request){
 		$credentials = $this->validate($request,['email'=>'required|email|max:255','password'=>'required']);
-		print_r($credentials);
 		if(Auth::attempt($credentials,$request->has('remember'))){
-			session()->flash('success','欢迎回来！');
-			return redirect()->intended(route('users.show', [Auth::user()]));
+			if(Auth::user()->activated){
+				session()->flash('success','欢迎回来！');
+			    return redirect()->intended(route('users.show', [Auth::user()]));
+			}else{
+				Auth::logout();
+				session()->flash('warning','你的账号未激活，请检查邮箱中的注册邮件进行激活。');
+				return redirect('/');
+			}
 		}else{
 			session()->flash('danger','很抱歉，您的邮箱和密码不匹配');
 			return redirect()->route('login');
@@ -35,5 +41,19 @@ class SessionsController extends Controller
 		Auth::logout();
 		session()->flash('success','退出成功');
 		return redirect()->back();
+	}
+	
+	//发送邮箱
+	public function sendEmailConfirmationTo($user){
+		$view = 'emails.confirm';
+		$data = compact('user');
+		$from = 'aufree@yousails.com';
+		$name = 'Aufree';
+		$to = $user->email;
+		$subject = "感谢注册 Sample 应用！请确认你的邮箱。";
+		
+		Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
 	}
 }

@@ -32,3 +32,5 @@ Route::get('login','SessionsController@create')->name('login');
 Route::post('login','SessionsController@store')->name('login');
 //用户退出
 Route::delete('logout','SessionsController@destroy')->name('logout');
+//用户邮箱认证
+Route::get('signup/confirm/{token}','UsersController@confirmEmail')->name('confirm_email');
