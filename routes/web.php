@@ -34,3 +34,9 @@ Route::post('login','SessionsController@store')->name('login');
 Route::delete('logout','SessionsController@destroy')->name('logout');
 //用户邮箱认证
 Route::get('signup/confirm/{token}','UsersController@confirmEmail')->name('confirm_email');
+//显示重置密码的邮箱发送页面
+Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+//用户在重置密码的填写邮箱后提交,后台处理后发送给用户邮箱和验证字段的拼接
+Route::post('password/email','Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
