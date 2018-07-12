@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword;
 
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -17,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','activation_token','activated'
     ];
 
     /**
@@ -28,6 +29,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    //关联模型：一对多(一个用户可以发表多条微博)
+    public function statuses(){
+        return $this->hasMany(Status::class);
+    }
 
     //生成用户头像
     public function gravatar($size=100){
