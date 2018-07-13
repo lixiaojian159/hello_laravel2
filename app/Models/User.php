@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         $this->notify(new ResetPassword($token));
     }
+
+    //获取用户自己的微博
+    public function feed(){
+        return $this->statuses()->orderBy('created_at','desc');
+    }
 }
