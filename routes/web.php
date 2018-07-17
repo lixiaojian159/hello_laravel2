@@ -42,3 +42,17 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
 //微博发布和删除
 Route::resource('statuses','StatusesController',[ 'only' => ['store','destroy'] ]);
+//测试函数
+Route::get('compact_test/{user_ids}','IndexController@compact_test');
+//关注用户列表
+Route::get('users/{user}/followings','UsersController@followings')->name('users.followings');
+//粉丝用户列表
+Route::get('users/{user}/followers','UsersController@followers')->name('users.followers');
+//添加关注
+Route::post('users/followers/{user}','FollowersController@store')->name('followers.store');
+//取消关注
+Route::delete('users/followers/{user}','FollowersController@destroy')->name('followers.destroy');
+//测试User
+Route::get('user_test','IndexController@user_test');
+//测试auth_test
+Route::get('auth_test','IndexController@auth_test');
